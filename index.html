@@ -1,6 +1,21 @@
 <html>
 <head>
     <script>
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function countdown(beginSeconds) {
+            var cd = document.getElementById("countdown");
+            cd.innerHTML = beginSeconds;
+
+            if (beginSeconds > 0) {
+                sleep(1000).then(() => {
+                    countdown(--beginSeconds);
+                });
+            }
+        }
+
         var started = false;
         function start() {
             if (started == false) {
@@ -8,6 +23,7 @@
                 basicCycle();
             }
         }
+
         function basicCycle() {
             var bIn = document.getElementById("breatheIn");
             breatheIn();
@@ -20,6 +36,7 @@
             var bIn = document.getElementById("breatheIn");
             bIn.beginElement();
             bIn.setAttribute("onend", "pause()");
+            countdown(10);
         }
 
         function pause() {
@@ -29,6 +46,7 @@
             var hold = document.getElementById("holdBreath");
             hold.beginElement();
             hold.setAttribute("onend", "breatheOut()");
+            countdown(5);
         }
 
         function breatheOut() {
@@ -37,6 +55,7 @@
             
             out = document.getElementById("breatheOut");
             out.beginElement();
+            countdown(10);
         }
 
     </script>
@@ -59,7 +78,9 @@
                 <animate id="holdBreath" attributeType="xml" attributeName="r" from="30%" to="30%" begin="indefinite" dur="5s" repeatCount="1" fill="freeze" />
                 <animate id="breatheOut" attributeType="xml" attributeName="r" from="30%" to="15%" begin="indefinite" dur="10s" repeatCount="1" fill="freeze" />
             </circle>
-            <text id="instructions" x="50%" y="50%" text-anchor="middle" fill="white" dy=".3em" font-family="Arial" font-weight="bold" font-size="48">Hiccup Cure - Tap To Start</text>
+                <text id="instructions" x="50%" y="50%" text-anchor="middle" fill="white" dy="-0.3em" font-family="Arial" font-weight="bold" font-size="48">Hiccup Cure - Tap To Start</text>
+                <text id="countdown" x="50%" y="50%" text-anchor="middle" fill="white" dy="1em" font-family="Arial" font-weight="bold" font-size="64">10</text>
+
         </g>
     </svg>
 </div>

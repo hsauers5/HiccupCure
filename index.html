@@ -25,8 +25,11 @@
 
 <div id="animation">
     <svg height="80%" width="100%">
+        <circle id="inner" cx="50%" cy="50%" r="150" fill="blue">
+        </circle>
         <circle id="inner" cx="50%" cy="50%" r="50" fill="red">
             <animate attributeType="xml" attributeName="r" from="50" to="150" dur="10s" repeatCount="1" fill="freeze" />
+            <animate attributeType="xml" attributeName="r" from="150" to="50" begin="15s" dur="10s" repeatCount="1" fill="freeze" />
         </circle>
     </svg>
 </div>

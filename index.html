@@ -5,14 +5,16 @@
             return new Promise(resolve => setTimeout(resolve, ms));
         }
 
-        function countdown(beginSeconds) {
+        function countdown(beginSeconds, next) {
             var cd = document.getElementById("countdown");
             cd.innerHTML = beginSeconds;
 
             if (beginSeconds > 0) {
                 sleep(1000).then(() => {
-                    countdown(--beginSeconds);
+                    countdown(--beginSeconds, next);
                 });
+            } else if (next != null) {
+                cd.innerHTML = next;
             }
         }
 
@@ -36,7 +38,7 @@
             var bIn = document.getElementById("breatheIn");
             bIn.beginElement();
             bIn.setAttribute("onend", "pause()");
-            countdown(10);
+            countdown(10, 5);
         }
 
         function pause() {
@@ -46,7 +48,7 @@
             var hold = document.getElementById("holdBreath");
             hold.beginElement();
             hold.setAttribute("onend", "breatheOut()");
-            countdown(5);
+            countdown(5, 10);
         }
 
         function breatheOut() {

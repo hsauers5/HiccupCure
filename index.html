@@ -22,42 +22,54 @@
         function start() {
             if (started == false) {
                 started = true;
-                basicCycle();
+                driver();
             }
         }
 
-        function basicCycle() {
-            var bIn = document.getElementById("breatheIn");
-            breatheIn();
+        function driver() {
+            waitThen(0, in_, 10, 5); // wait 0 seconds before calling in_() with params 10 and 5
+            waitThen(10, hold, 5, 10); // wait 10 seconds after the above before calling hold() with params 5 and 10
+            waitThen(5, out, 10, 0); // etc.
+        }
+        
+        // waiting utility functions
+        const wait = ms => new Promise(resolve => setTimeout(resolve, ms))
+        var totalSeconds = 0;
+        
+        function waitThen(secondsToWait, func, param1, param2) {
+            totalSeconds += secondsToWait;
+            wait(totalSeconds*1000).then(() => func(param1, param2));
         }
 
-        function breatheIn() {
+        // core breathing exercises
+        function in_(begin, end) {
             var inst = document.getElementById("instructions");
             inst.innerHTML = "Breathe In Deeply";
 
             var bIn = document.getElementById("breatheIn");
             bIn.beginElement();
-            bIn.setAttribute("onend", "pause()");
-            countdown(10, 5);
-        }
-
-        function pause() {
-            var inst = document.getElementById("instructions");
-            inst.innerHTML = "Hold Your Breath";
             
-            var hold = document.getElementById("holdBreath");
-            hold.beginElement();
-            hold.setAttribute("onend", "breatheOut()");
-            countdown(5, 10);
+            countdown(begin, end);
         }
 
-        function breatheOut() {
+        function out(begin, end) {
             var inst = document.getElementById("instructions");
             inst.innerHTML = "Breathe All the Way Out";
-            
+
             out = document.getElementById("breatheOut");
             out.beginElement();
-            countdown(10);
+            
+            countdown(begin, end);
+        }
+
+        function hold(begin, end) {
+            var inst = document.getElementById("instructions");
+            inst.innerHTML = "Hold Your Breath";
+
+            var hold = document.getElementById("holdBreath");
+            hold.beginElement();
+            
+            countdown(begin, end);
         }
 
     </script>
@@ -70,11 +82,6 @@
         </circle>
         <g>
             <circle id="inner" cx="50%" cy="50%" r="12%" fill="red">
-                <!--
-                <animate attributeType="xml" attributeName="r" from="50" to="150" dur="10s" repeatCount="1" fill="freeze" />
-                <animate attributeType="xml" attributeName="r" from="150" to="50" begin="15s" dur="10s" repeatCount="1" fill="freeze" />
-                -->
-
                 <!-- JavaScript-Triggered Animations -->
                 <animate id="breatheIn" attributeType="xml" attributeName="r" from="12%" to="28%" begin="indefinite" dur="10s" repeatCount="1" fill="freeze" />
                 <animate id="holdBreath" attributeType="xml" attributeName="r" from="28%" to="28%" begin="indefinite" dur="5s" repeatCount="1" fill="freeze" />
@@ -82,14 +89,8 @@
             </circle>
                 <text id="instructions" x="50%" y="50%" text-anchor="middle" fill="white" dy="-0.3em" font-family="Arial" font-weight="bold" font-size="48">Hiccup Cure - Tap To Start</text>
                 <text id="countdown" x="50%" y="50%" text-anchor="middle" fill="white" dy="1em" font-family="Arial" font-weight="bold" font-size="64">10</text>
-
         </g>
     </svg>
 </div>
-<center>
-    <!--
-    <button onclick="basicCycle()">Begin</button>
-    -->
-</center>
 </body>
 </html>

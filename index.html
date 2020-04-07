@@ -29,7 +29,31 @@
         function driver() {
             waitThen(0, in_, 10, 5); // wait 0 seconds before calling in_() with params 10 and 5
             waitThen(10, hold, 5, 10); // wait 10 seconds after the above before calling hold() with params 5 and 10
-            waitThen(5, out, 10, 0); // etc.
+            waitThen(5, out, 10, 5); // etc.
+            
+            waitThen(10, hold, 5, 10);
+            waitThen(5, in_, 10, 5);
+            waitThen(10, hold, 5, 5);
+            
+            waitThen(5, outFirstHalf, 5, 5);
+            waitThen(5, hold, 5, 5);
+            waitThen(5, outSecondHalf, 5, 0);
+            
+            waitThen(0, in_, 10, 5);
+            waitThen(10, hold, 5, 0);
+            waitThen(5, sipWater, 0, 10);
+            waitThen(5, out, 10, 5);
+            
+            
+            waitThen(5, inFirstHalf, 5, 5);
+            waitThen(5, hold, 5, 5);
+            waitThen(5, inSecondHalf, 5, 10);
+            waitThen(5, hold, 10, 10);
+            
+            waitThen(0, out, 10, 0);
+            
+            waitThen(10, sipWater, 0, 0);
+            waitThen(5, cured, 0, 0);
         }
         
         // waiting utility functions
@@ -71,6 +95,58 @@
             
             countdown(begin, end);
         }
+        
+        function outFirstHalf(begin, end) {
+            var inst = document.getElementById("instructions");
+            inst.innerHTML = "Breathe Out Halfway";
+
+            out = document.getElementById("outFirstHalf");
+            out.beginElement();
+            
+            countdown(begin, end);
+        }
+        
+        function outSecondHalf(begin, end) {
+            var inst = document.getElementById("instructions");
+            inst.innerHTML = "Breathe Out All The Way";
+
+            out = document.getElementById("outSecondHalf");
+            out.beginElement();
+            
+            countdown(begin, end);
+        }
+        
+        function inFirstHalf(begin, end) {
+            var inst = document.getElementById("instructions");
+            inst.innerHTML = "Breathe In Halfway";
+
+            out = document.getElementById("inFirstHalf");
+            out.beginElement();
+            
+            countdown(begin, end);
+        }
+        
+        function inSecondHalf(begin, end) {
+            var inst = document.getElementById("instructions");
+            inst.innerHTML = "Breathe In All The Way";
+
+            out = document.getElementById("inSecondHalf");
+            out.beginElement();
+            
+            countdown(begin, end);
+        }
+        
+        function sipWater() {
+            var inst = document.getElementById("instructions");
+            inst.innerHTML = "Take a small sip of water.";
+        }
+        
+        
+        // you're cured!
+        function cured() {
+            var inst = document.getElementById("instructions");
+            inst.innerHTML = "You're cured!";
+        }
 
     </script>
 </head>
@@ -84,8 +160,14 @@
             <circle id="inner" cx="50%" cy="50%" r="12%" fill="red">
                 <!-- JavaScript-Triggered Animations -->
                 <animate id="breatheIn" attributeType="xml" attributeName="r" from="12%" to="28%" begin="indefinite" dur="10s" repeatCount="1" fill="freeze" />
-                <animate id="holdBreath" attributeType="xml" attributeName="r" from="28%" to="28%" begin="indefinite" dur="5s" repeatCount="1" fill="freeze" />
+                <animate id="holdBreath" attributeType="xml"  begin="indefinite" dur="5s" repeatCount="1" fill="freeze" />
                 <animate id="breatheOut" attributeType="xml" attributeName="r" from="28%" to="12%" begin="indefinite" dur="10s" repeatCount="1" fill="freeze" />
+                
+                <animate id="outFirstHalf" attributeType="xml" attributeName="r" from="28%" to="20%" begin="indefinite" dur="5s" repeatCount="1" fill="freeze" />
+                <animate id="outSecondHalf" attributeType="xml" attributeName="r" from="20%" to="12%" begin="indefinite" dur="5s" repeatCount="1" fill="freeze" />
+                <animate id="inFirstHalf" attributeType="xml" attributeName="r" from="12%" to="20%" begin="indefinite" dur="5s" repeatCount="1" fill="freeze" />
+                <animate id="inSecondHalf" attributeType="xml" attributeName="r" from="20%" to="28%" begin="indefinite" dur="5s" repeatCount="1" fill="freeze" />
+           
             </circle>
                 <text id="instructions" x="50%" y="50%" text-anchor="middle" fill="white" dy="-0.3em" font-family="Arial" font-weight="bold" font-size="48">Hiccup Cure - Tap To Start</text>
                 <text id="countdown" x="50%" y="50%" text-anchor="middle" fill="white" dy="1em" font-family="Arial" font-weight="bold" font-size="64">10</text>
